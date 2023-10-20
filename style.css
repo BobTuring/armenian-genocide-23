@@ -89,6 +89,7 @@ section.paper-section-dark {
   background-color: rgb(242, 239, 228);
   background-blend-mode: multiply;
   font-size: 1.25rem;
+  padding-block: 2rem;
 }
 
 #abstract h1 {
