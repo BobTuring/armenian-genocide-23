@@ -1,0 +1,588 @@
+body {
+  background-color: hsl(40, 8%, 14%);
+  margin: 0;
+  padding: 0;
+  --mouseXRelative: 0;
+  --mouseYRelative: 0;
+}
+
+/* *,
+*::before,
+*::after {
+  box-sizing: border-box;
+} */
+
+/* Old circle */
+#victimContainer {
+  width: 100vw;
+  height: 100vh;
+  --distance-from-center: 12rem;
+  --scale: .9;
+  --distance-variation: 1;
+  overflow: hidden;
+}
+
+.victim {
+  width: 10vw;
+  background-color: hsl(47, 6%, 28%);
+  color: hsl(0, 0%, 92%);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(calc(-50% + var(--sin) * var(--distance-from-center) * var(--distance-variation)),
+      calc(-50% + var(--cos) * var(--distance-from-center) * var(--distance-variation))) scale(var(--scale));
+}
+
+.victim-image {
+  width: 100%;
+}
+
+.victim-name {
+  margin: 0;
+  padding: .5em;
+}
+
+section {
+  padding-inline: 1em;
+  overflow: hidden;
+}
+
+section.paper-section {
+  min-height: 50vh;
+  background-repeat: repeat;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-family: "Baskerville", "Libre Baskerville", "Times New Roman", serif;
+  padding-inline: 20vw;
+  position: relative;
+}
+
+section.paper-section-light {
+  background-image: url(images/paperbg.png);
+  color: black;
+}
+
+section.paper-section-dark {
+  background-image: url(images/paperbg-dark.png);
+  color: rgba(240, 226, 226, 0.933);
+  box-shadow: inset 0 2rem 15rem -1rem rgba(155, 0, 0, 0.3);
+}
+
+.little-shadow {
+  height: 1px;
+  margin-top: -1px;
+  position: absolute;
+  top: 0;
+  width: 100vh;
+  box-shadow: 0 0 1.5rem .125rem rgb(120, 120, 120);
+}
+
+#abstract {
+  min-height: 100vh;
+  flex-direction: column;
+  gap: 1rem;
+  border-bottom: .5rem solid black;
+  box-sizing: border-box;
+  background-color: rgb(242, 239, 228);
+  background-blend-mode: multiply;
+  font-size: 1.25rem;
+}
+
+#abstract h1 {
+  font-size: 2em;
+}
+
+#abstract>* {
+  margin: 0;
+}
+
+/* Gallery */
+#gallery {
+  min-height: 100vh;
+  overflow: hidden;
+  background-image: url(images/floralWallpaper.png);
+  background-repeat: repeat;
+  background-size: 40%;
+  position: relative;
+}
+
+#galleryFrames {
+  margin: auto;
+  margin-top: 1em;
+  width: min(max(70vw, 800px), 100%);
+  min-height: calc(80vh - 1em);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  gap: 1em;
+}
+
+.framed-victim-container {
+  position: relative;
+  box-shadow: 0 0 1em rgba(104, 104, 104, 0.647);
+}
+
+.framed-victim-image {
+  max-width: 12vw;
+  max-height: 15vh;
+  border: 30px solid;
+  display: block;
+  box-sizing: content-box;
+}
+
+.framed-victim-image[data-frame-type="1"] {
+  border-image-source: url("images/frame1.png");
+  border-image-slice: 46;
+}
+
+.framed-victim-image[data-frame-type="2"] {
+  border-image-source: url("images/frame2.png");
+  border-image-slice: 166;
+}
+
+.framed-victim-image[data-frame-type="3"] {
+  border-image-source: url("images/frame3.png");
+  border-image-slice: 31;
+}
+
+.framed-victim-image[data-frame-type="4"] {
+  border-image-source: url("images/frame4.png");
+  border-image-slice: 190;
+}
+
+.framed-victim-image[data-frame-type="5"] {
+  border-image-source: url("images/frame5.png");
+  border-image-slice: 46;
+}
+
+.framed-victim-hover-box {
+  --margin: .75em;
+  --padding: .5em;
+  background-color: hsla(0, 0%, 37%, 95%);
+  color: white;
+  position: absolute;
+  width: calc(100% - 2 * var(--margin) - 2 * var(--padding));
+  height: calc(100% - 2 * var(--margin) - 2 * var(--padding));
+  transform: translateY(calc(-100% - 2 * var(--margin)));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: .5em;
+  margin: var(--margin);
+  padding: var(--padding);
+  box-shadow: 0 0 1.5em .125em hsl(0, 0%, 37%);
+  opacity: 0;
+  transition: opacity 400ms;
+  cursor: default;
+  box-sizing: content-box;
+}
+
+.framed-victim-container:hover .framed-victim-hover-box {
+  opacity: 1;
+}
+
+.framed-victim-name {
+  font-weight: bold;
+  font-family: sans-serif;
+  margin: 0;
+}
+
+.framed-victim-description {
+  font-size: .9em;
+  margin: 0;
+}
+
+#grandmasLove {
+  --mouse-move-factor: 12.5px;
+  position: absolute;
+  font-family: "Baskerville", "Libre Baskerville", "Times New Roman", serif;
+  font-size: 1.75rem;
+  width: 100%;
+  text-align: center;
+  transform: translateY(calc(var(--grandma-love-scale) * -100vh)) translate(calc(var(--mouseXRelative) * -1 * var(--mouse-move-factor)), calc(var(--mouseYRelative) * -1 * var(--mouse-move-factor)));
+  color: white;
+  pointer-events: none;
+  opacity: calc(var(--grandma-love-scale) * 8);
+}
+
+#grandmasLove div {
+  --color: rgba(191, 103, 48, 0.808);
+  background-color: var(--color);
+  border-radius: 30%;
+  box-shadow: 0 0 1rem 1rem var(--color);
+  width: max-content;
+  margin: auto;
+}
+
+#fireplace {
+  background-image: url(images/mantle.png);
+  background-size: cover;
+  height: 18vh;
+  width: 60vh;
+  margin-top: 2vh;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+#fire1 {
+  background-color: #ffc122;
+  width: 20rem;
+  height: 30rem;
+  border-radius: 25%;
+  filter: blur(15rem);
+  position: absolute;
+  left: -8rem;
+  top: -10rem;
+}
+
+#fire2 {
+  background-color: #f7812d;
+  width: 15rem;
+  height: 25rem;
+  border-radius: 25%;
+  filter: blur(10rem);
+  position: absolute;
+  right: -5rem;
+}
+
+#fire3 {
+  background-color: #fff30e7b;
+  width: 10rem;
+  height: 20rem;
+  border-radius: 25%;
+  filter: blur(10rem);
+  position: absolute;
+  right: 10rem;
+  top: -20rem;
+}
+
+/* Spreadsheet */
+#tableSection {
+  min-height: 200vh;
+  position: relative;
+  padding: 0;
+  opacity: calc(1 - var(--table-section-scale));
+  z-index: -1;
+}
+
+#spreadsheet {
+  /* color: white; */
+  font-family: "Courier", monospace;
+  position: relative;
+  background-image: url(images/paperbg.png);
+  background-size: cover;
+  background-position: 50%;
+  padding: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 3fr 3fr 6fr;
+  column-gap: .5em;
+  grid-template-rows: repeat(12, 3.5rem 1px);
+  align-items: start;
+  width: min(max(50vw, 650px), 100%);
+  margin: auto;
+  /* margin-top: 2em; */
+  --mouse-move-factor: 3.5px;
+  transform: translate(calc(var(--mouseXRelative) * -1 * var(--mouse-move-factor)), calc(var(--mouseYRelative) * -1 * var(--mouse-move-factor)))
+}
+
+#spreadsheet .image {
+  /* width: 3rem; */
+  height: 3rem;
+  align-self: center;
+}
+
+#spreadsheet div {
+  margin-top: .5em;
+}
+
+#spreadsheet .hline {
+  grid-column: 1 / -1;
+  background-color: black;
+  height: 1px;
+  margin: 0;
+}
+
+#spreadsheet .spreadsheet-header {
+  font-weight: bold;
+  align-self: end;
+  margin-top: 0;
+  margin-bottom: .5em;
+}
+
+#tableSection .pen {
+  width: 30vw;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: translate(25%, 50%) rotate(120deg) translateX(-30%);
+  filter: drop-shadow(0 0 1rem rgba(77, 68, 68, 0.5));
+}
+
+.spreadsheet-annotation-1 {
+  font-family: "Gloria Hallelujah", "Brush Script MT", cursive;
+  color: hsl(240, 100%, 20%);
+  position: absolute;
+  right: 1.5em;
+  top: 1.5em;
+  transform: rotate(10deg);
+}
+
+#spreadsheet.spreadsheet-fixed {
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  transform: translate(calc(var(--mouseXRelative) * -1 * var(--mouse-move-factor)), calc(var(--mouseYRelative) * -1 * var(--mouse-move-factor))) translateX(-50%) translateX(min(0px, calc(var(--scale) * -100px + 60px))) scale(calc(var(--scale) * -0.15 + 1)) rotate(min(0deg, calc(-10deg * var(--scale) + 5deg))) scale(calc(var(--table-section-scale) * -.2 + 1)) translateY(calc(var(--table-section-scale) * 7vh));
+  opacity: calc(var(--scale) * -0.5 + 1);
+  z-index: -1;
+}
+
+.other-papers {
+  margin-top: 100vh;
+  position: relative;
+}
+
+#exterminationOrder {
+  --mouse-move-factor: 10px;
+  position: absolute;
+  top: 0;
+  right: 15%;
+  --scale: 1;
+  transform: translate(calc(var(--mouseXRelative) * -1 * var(--mouse-move-factor)), calc(var(--mouseYRelative) * -1 * var(--mouse-move-factor))) rotate(calc(10deg * var(--scale))) scale(calc(var(--scale) * -.2 + 1.15)) scale(calc(var(--table-section-scale) * -.2 + 1)) translateY(calc(var(--table-section-scale) * 11.5vh));
+  opacity: calc(var(--scale) * 2);
+  filter: drop-shadow(0 0 1rem rgba(77, 68, 68, 0.5));
+}
+
+#exterminationOrder img {
+  width: 35vw;
+}
+
+.extermination-order-translation {
+  --mouse-move-factor: 2px;
+  width: calc(35vw - 8em);
+  font-family: "Baskerville", "Libre Baskerville", "Times New Roman", serif;
+  background-color: hsla(0, 0%, 100%, 0.7);
+  font-size: 1.5vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(calc(var(--mouseXRelative) * -1 * var(--mouse-move-factor)), calc(var(--mouseYRelative) * -1 * var(--mouse-move-factor))) translate(-50%, -50%);
+  box-shadow: 0 0 1em 1em hsla(0, 0%, 100%, 0.7);
+  opacity: calc(var(--scale) * 5 - 3);
+}
+
+#otherPapers.other-papers-fixed #exterminationOrder {
+  position: fixed;
+  z-index: -1;
+}
+
+#otherPapers.other-papers-fixed #talaatsLove {
+  position: fixed;
+  z-index: -1;
+  /* top: 0; */
+}
+
+#talaatsLove {
+  --mouse-move-factor: 15px;
+  font-family: "Baskerville", "Libre Baskerville", "Times New Roman", serif;
+  color: white;
+  background-color: hsla(0, 0%, 42%, 0.7);
+  box-shadow: 0 0 1rem .75rem hsla(0, 0%, 42%, 0.7);
+  border-radius: 15%;
+  text-align: center;
+  font-size: 1.75rem;
+  position: absolute;
+  left: 12%;
+  top: 20vh;
+  transform: translate(calc(var(--mouseXRelative) * -1 * var(--mouse-move-factor)), calc(var(--mouseYRelative) * -1 * var(--mouse-move-factor))) rotate(calc(var(--scale) * -15deg)) scale(calc(var(--table-section-scale) * -.2 + 1)) translateY(calc(var(--table-section-scale) * 25vh)) translateY(calc(var(--scale) * -20vh + 20vh)) translateX(calc(var(--scale) * -5vw));
+  opacity: calc(var(--scale) * 2 - .5);
+}
+
+/* Schoolhouse */
+#schoolhouseSection {
+  height: 400vh;
+  width: 100vw;
+  background-color: white;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.school-background {
+  height: 100vh;
+  width: 100vw;
+  background-image: url(images/skybg.jpg);
+  background-size: cover;
+  z-index: 1;
+  opacity: calc(var(--schoolhouse-scale) * -1 + 2.5);
+}
+
+.school-foreground {
+  position: absolute;
+  bottom: 300vh;
+  z-index: 5;
+  opacity: calc(var(--schoolhouse-scale) * -1 + 2);
+}
+
+#schoolhouseSection.schoolhouse-fixed .school-background {
+  position: fixed;
+  top: 0;
+}
+
+#schoolhouseSection.schoolhouse-fixed .erukhan-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#schoolhouseSection.schoolhouse-fixed .school-foreground {
+  position: fixed;
+  bottom: 0;
+}
+
+#schoolhouseSection.schoolhouse-fixed #schoolhouseText {
+  margin-top: 100vh;
+}
+
+.erukhan-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: max-content;
+  position: absolute;
+  bottom: 30%;
+  left: 0;
+  z-index: 10;
+  transform: rotate(calc(var(--mouseXRelative) * 1deg)) translateX(calc(var(--mouseXRelative) * var(--schoolhouse-scale) * -1vw)) translateY(calc(var(--mouseYRelative) * -1vh - 1vh)) translateX(calc(min(var(--schoolhouse-scale), 1.1) * 50vw - 100%)) translateY(calc(cos(calc(min(var(--schoolhouse-scale), 1.1) * 10)) * 1vh - 1vh)) translateY(calc(max(0.9, var(--schoolhouse-scale)) * -10vh)) translateY(calc((clamp(2, var(--schoolhouse-scale), 3) - 2) * 25vh)) scale(calc(var(--schoolhouse-scale) / 4 + 1));
+}
+
+.erukhan-container .string {
+  width: 2px;
+  height: 100vh;
+  background-color: black;
+}
+
+.erukhan-container img {
+  width: 13vw;
+  position: relative;
+  bottom: 3vw;
+  filter: drop-shadow(0 0 1vh rgb(77, 77, 77));
+}
+
+#schoolhouseText {
+  height: 100vh;
+  z-index: 3;
+  padding-right: 3em;
+  position: relative;
+}
+
+.schoolhouse-text-column {
+  width: 45%;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.schoolhouse-text-column p {
+  margin-top: 2em;
+  background-color: #ffffffc0;
+  box-shadow: 0 0 1em 1em #ffffffc0;
+  border-radius: 2em;
+  padding: .25em;
+  font-size: 1.25rem;
+}
+
+.schoolhouse-room-background {
+  background-image: url(images/classroombg.jpg);
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  z-index: 2;
+  filter: blur(.4rem) grayscale(75%);
+}
+
+.schoolhouse-room-text {
+  z-index: 20;
+  position: absolute;
+  font-family: "Baskerville", "Libre Baskerville", "Times New Roman", serif;
+  font-size: 1.25rem;
+  width: 35vw;
+  right: 5vw;
+  transform: translateY(calc((var(--schoolhouse-scale) - 1) * -60vh + 120vh));
+  display: flex;
+  flex-direction: column;
+  gap: 20vh;
+  text-align: right;
+}
+
+.schoolhouse-room-text p {
+  background-color: #fff8e8;
+  margin: 0;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem 1rem #fff8e8;
+}
+
+.schoolhouse-students {
+  z-index: 30;
+  position: relative;
+  width: 100%;
+  bottom: 0;
+  height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  filter: blur(.6rem) grayscale(60%) drop-shadow(0 0 2rem rgb(98, 98, 98));
+}
+
+.schoolhouse-students img {
+  width: 100%;
+}
+
+.jailcell-background {
+  background-image: url(images/cellInterior.jpg);
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  z-index: 2;
+  filter: blur(.4rem) grayscale(75%);
+}
+
+.jailcell-foreground {
+  z-index: 30;
+  position: relative;
+  width: 100%;
+  bottom: 0;
+  height: 100vh;
+  background-image: url(images/jailBars.png);
+  background-size: cover;
+  background-position: center;
+  filter: blur(.2rem);
+  opacity: .9;
+  transform: scale(1.1) translateY(calc((clamp(2, var(--schoolhouse-scale), 4) - 2) * -12vh + 10vh));
+}
+
+.jailcell-text {
+  position: absolute;
+  bottom: 25vh;
+  z-index: 35;
+  transform: translateY(calc((clamp(2, var(--schoolhouse-scale), 4) - 2) * -30vh + 10vh));
+  font-family: "Baskerville", "Libre Baskerville", "Times New Roman", serif;
+  font-size: 2rem;
+  width: 50vw;
+  left: 10%;
+  text-shadow: 0 0 .5rem black;
+  color: white;
+}
